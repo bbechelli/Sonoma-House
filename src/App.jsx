@@ -1,17 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
+import { createClient } from "@supabase/supabase-js";
  
-// Safe supabase import - won't crash if env vars missing
-let supabase = null;
-try {
- const { createClient } = await import('@supabase/supabase-js');
- const url = import.meta.env.VITE_SUPABASE_URL;
- const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
- if (url && key) {
-   supabase = createClient(url, key);
- }
-} catch(e) {
- console.log('Supabase not available:', e);
-}
+const url = import.meta.env.VITE_SUPABASE_URL;
+const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = (url && key) ? createClient(url, key) : null;
  
 const FAMILIES = [
  { id: "mikeval",        name: "Mike & Val",       symbol: "◆", mark: "#8B4040", bg: "#F5EDE0" },
@@ -474,3 +466,4 @@ export default function App() {
    </div>
  );
 }
+ 
